@@ -50,7 +50,7 @@ weex-toolkit supports previewing your Weex file(`.we` or `.vue`) in a watch mode
 weex-toolkit工具支持对你的Weex文件（`.vue`)在监听模式下进行预览，你只需要指定一下你的项目路径。
 
 ``` bash
-$ weex src/foo.vue
+$ weex preview src/foo.vue
 ```
 
 浏览器会自动得打开预览页面并且你可以看到你的weex页面的布局和效果。如果你在你的设备上安装了[Playground](https://weex.apache.org/cn/playground.html)，你还可以通过扫描页面上的二维码来查看页面。
@@ -58,7 +58,7 @@ $ weex src/foo.vue
 使用下面的命令，你将可以预览整个文件夹中的`.vue`文件
 
 ``` bash
-$ weex src --entry src/foo.vue
+$ weex preview src --entry src/foo.vue
 ```
 
 你需要指定要预览的文件夹路径以及入口文件（通过`--entry`传入）。
@@ -109,9 +109,16 @@ $ weex run web
 
 ### debug
 
-** [Weex devtools](https://github.com/weexteam/weex-devtool) ** 是实现[Chrome调试协议](https://developer.chrome.com/devtools/docs/debugger-protocol)的Weex自定义开发工具, 
+从 `weex-toolkit v1.2.0+` 版本开始，默认的debugger工具从[Weex devtools](https://github.com/weexteam/weex-devtool)切换至[Weex debugger](https://github.com/weexteam/weex-debugger)
+** [Weex debugger](https://github.com/weexteam/weex-debugger) ** 是实现[Chrome调试协议](https://developer.chrome.com/devtools/docs/debugger-protocol)的Weex自定义开发工具, 
 主要用于帮助你快速检查您的应用程序，并在Chrome网页中调试您的JS bundle源代码，支持Android和iOS平台。所以你可以通过`weex-toolkit`使用的`weex-devtool`功能。
 
+如果你想使用旧版本的devtool工具，可以通过以下命令调用：
+```
+weex xbind debugx weex-devtool
+weex update weex-devtool #如果更新过程报错请删除 `~/.xttolkit/node_modules/weex-devtool`后重新运行
+weex debugx
+```
 #### 用法
 
 ``` bash
@@ -120,18 +127,18 @@ weex debug [we_file|bundles_dir] [options]
 
 #### 参数
 
-| Option        | Description    | 
+| 选项        | 描述    | 
 | --------   | :-----   |
-|`-V, --verbose`       | display logs of debugger server|
-|`-v, --version`       | display version|
-|`-p, --port [port]`   | set debugger server port|
-|`-e, --entry [entry]` | set the entry bundlejs path when you specific the bundle server root path|
-|`-m, --mode [mode]`   | set build mode [transformer|loader]|
-|`-w, --watch`        | watch we file changes auto build them and refresh debugger page! [default `true`]|
-|`--ip [ip]`|set the host ip of debugger server|
-|`--loglevel [loglevel]`| set log level `silent|error|warn|info|log|debug`|
-|`--min`| set jsbundle uglify or not. [default `false`]|
-|`--debug`| start with node-inspect default port is 9331|
+|`-v, --version`       | 展示版本信息 |
+|`-h, --help`       | 展示帮助界面 |
+|`-H --host [host] `   | 设置启动的ip地址（适用于docker等代理环境下）|
+|`-p, --port [port]` | 设置启动的端口号 |
+|`-m, --manual`   | 开启该选项时debugger将不会自动打开浏览器 |
+|`--min`        | 压缩jsbundle |
+|`--verbose`|展示详细日志|
+|`--loglevel [loglevel]`| 设置日志等级，可选的等级有 silent/error/warn/info/log/debug 默认值为 error |
+|`--remotedebugport [remotedebugport]`| 设置调试端口号 默认值为 9222|
+|`--telemetry`| 上传用户错误日志帮助提高工具链 |
 
 #### 特性
 
@@ -141,10 +148,9 @@ weex debug [we_file|bundles_dir] [options]
 $ weex debug
 ```
 
-这个命令将启动调试服务器并启动一个打开“DeviceList”页面的chrome。
-这个页面会显示一个二维码，你可以使用[Playground](https://weex.apache.org/cn/playground.html)来扫描它来启动调试或者在你的应用中集成[Weex devtools](#集成devtool工具)
+该命令会启动一个调试用二维码，有ios模拟器环境的用户可以通过点击二维码在模拟器中进行调试，你也可以使用[Playground](https://weex.apache.org/cn/playground.html)来扫描它来启动调试或者在你的应用中集成[Weex devtools](#集成devtool工具)
 
-![devtools-main](https://img.alicdn.com/tfs/TB1xPipftfJ8KJjy0FeXXXKEXXa-2880-2314.png)
+![devtools-main](https://img.alicdn.com/tfs/TB1v.PqbmBYBeNjy0FeXXbnmFXa-1886-993.png)
 
 ##### 调试`.vue`文件
 
@@ -154,57 +160,47 @@ $ weex debug your_weex.vue
 这个命令会将`your_weex.vue`编译成`your_weex.js`，并根据命令启动调试服务器。
 `your_weex.js`将部署在服务器上并显示在调试页面中，使用另一个二维码用于`your_weex.js`文件的调试。
 
-![devtools-entry](https://img.alicdn.com/tfs/TB13a9Zfx6I8KJjy0FgXXXXzVXa-2880-2314.png)
+![devtools-entry](https://img.alicdn.com/tfs/TB1j3DIbntYBeNjy1XdXXXXyVXa-1915-1001.png)
 
 ##### 调试文件夹中的`.vue`文件
 
 ```
-$ weex debug your/vue/path  -e index.vue
+$ weex debug your/vue/path
 ```
-这个命令将编译`your/vue/path`中的每个文件，并将它们部署在捆绑服务器上，新的文件将映射到`http://localhost:port/weex/`路径下，使用`-e`指定的路径作为页面的入口。
+这个命令将编译`your/vue/path`中的每个文件，并将它们部署在捆绑服务器上，新的文件将映射到`http://localhost:port/weex/`路径下，同样可以通过上面所示的扫码二维码界面进行查看。
 
-##### Inspector
+##### Inspector功能
+> Inspector功能可查看页面的VDOM/Native Tree结构
 
- Inspector 能够用来查看 `Element` \ `NetWork` \ `Console log` \ `ScreenCast` \ `BoxModel` \ `Native View` 等。
+注：如不需要此功能尽量保持关闭状态，开启浏览器Inspector界面会增加大量页面通讯，较为影响性能。
+![image-toggle](https://img.alicdn.com/tfs/TB166B8bhGYBuNjy0FnXXX5lpXa-2876-1652.png)
+![image-inspector](https://img.alicdn.com/tfs/TB11kN2beuSBuNjy1XcXXcYjFXa-2872-1636.png)
 
-![devtools-inspector](https://img.alicdn.com/tfs/TB1rmGMfBTH8KJjy0FiXXcRsXXa-2826-1636.png)
-
-##### Element
-
-![inspector-element](https://img.alicdn.com/tfs/TB1V.CJfBTH8KJjy0FiXXcRsXXa-2880-1652.png)
-
-##### NetWork
-
-![network](https://img.alicdn.com/tfs/TB1I.uRfwvD8KJjy0FlXXagBFXa-2840-1622.png)
-
-##### 查看网络请求的总耗时和延时
-
-![inspector-network](https://img.alicdn.com/tfs/TB1eKz_c5qAXuNjy1XdXXaYcVXa-2870-1650.png)
-
-##### 查看网络请求的header和response
-
-![inspector-network](https://img.alicdn.com/tfs/TB1eKz_c5qAXuNjy1XdXXaYcVXa-2870-1650.png)
-
-##### 控制台
-
-![inspector-console](https://img.alicdn.com/tfs/TB1Vt9PfwvD8KJjy0FlXXagBFXa-2880-1652.png)
-
-##### 资源
-
-![inspector-resource](https://img.alicdn.com/tfs/TB131eDfv2H8KJjy0FcXXaDlFXa-2872-1642.png)
-
-#### 调试
-
- 调试器用来调试 Weex 中的 JS 代码，能够设置断点、查看调用栈。
-
-![devtools-debugger](https://img.alicdn.com/tfs/TB1iuS5fDnI8KJjy0FfXXcdoVXa-2816-1642.png)
-
-##### Breakpoint and CallStack
-
-![debugger-breakpoint](https://img.alicdn.com/tfs/TB1cV5MfxrI8KJjy0FpXXb5hVXa-2860-1644.png)
+##### JS Debug功能
+> JS Debug功能可对weex页面中的Jsbundle进行调试。
+![image-debug](https://img.alicdn.com/tfs/TB1b5J2beuSBuNjy1XcXXcYjFXa-2880-1648.png)
 
 
-#### 集成devtool工具
+##### Network功能
+> Network功能可以收集weex应用中的网络请求信息。
+![image-network](https://img.alicdn.com/tfs/TB126JNbbGYBuNjy0FoXXciBFXa-2868-1642.png)
+
+
+##### LogLevel和ElementMode功能
+> LogLevel和ElementMode功能用于调整调试工具的输出配置。
+
+LogLevel分别有 debug/info/warn/log/error五个log等级，切换可输出不同等级的log信息  
+ElementMode可以切换Element标签中Domtree显示模式，下图为vdom显示界面，可从标签中看到详细的数据结构：  
+![imgage-loglevel](https://img.alicdn.com/tfs/TB1qzrObntYBeNjy1XdXXXXyVXa-2872-1636.png)
+
+##### Prophet功能（加载时序图）
+> Prophet功能用于查看weex的加载时序图和页面性能指标。
+
+点击右上角Prophet即可查看时序图(iOS暂不支持，性能数据可在log的performance中查看)，如下： 
+
+![imgage-prophet](https://img.alicdn.com/tfs/TB1E4rObntYBeNjy1XdXXXXyVXa-2852-1626.png)
+
+##### 集成devtool工具
 * Android
     * 查看文档 [Weex devtools (Android)](../../references/advanced/integrate-devtool-to-android.html), 它会引导你一步一步配置和使用它。
 * iOS
