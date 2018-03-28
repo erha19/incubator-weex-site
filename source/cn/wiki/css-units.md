@@ -31,34 +31,29 @@ version: 2.1
 }
 ```
 
-### 注意
+### Notes
 
-* 不支持 `hsl()`, `hsla()`, `currentColor`, 8个字符的十六进制颜色。
+* Not support `hsl()`, `hsla()`, `currentColor`, or 8-character hexadecimal color.
 
-* `rgb(a,b,c)` 或 `rgba(a,b,c,d)` 的性能比其他颜色格式差很多，请选择合适的颜色格式。
+* Performance of `rgb(a,b,c)` or `rgba(a,b,c,d)` is much worse than other color formats, please select the appropriate color format.
 
-颜色名称可查看 [颜色名称列表](./color-names.html).
+build-in color name you can see [Color Names](./color-names.html).
 
-## CSS `length` 单位
+## CSS `length` units
 
-在 Weex 中，我们只支持 `px` 长度单位。并且它将在 JavaScript 运行时和本机渲染器中解析为数字类型。
+In weex we only support `px` length units., and it will resolve to a numeric type in the JavaScript runtime and native renderer.
 
-下面这些不同的写法，解析的结果完全相同。
+You can use it like this :
 
 ```css
 .classA { font-size: 48px; line-height: 64px; }
 ```
 
-不支持类似 `em`，`rem`，`pt` 这样的 CSS 标准中的其他长度单位。
+Other length units in the CSS standard like `em`, `rem`, and `pt` are not supported.
 
-## CSS `number` 单位
+## CSS `number` units
 
-仅仅一个数字。用于 [`opacity`](./common-styles.html)，[`lines`](./text-styles.html)等。
+You can use `number` on property [`opacity`](./common-styles.html) and [`lines`](./text-styles.html).
 
-有时值必须是整数，例如：`lines`。
 
-## CSS `percentage` 单位 (暂不支持)
-
-表示百分比值，如“50％”，“66.7％”等。
-
-它是 CSS 标准的一部分，但 Weex 暂不支持。
+## CSS `percentage` units (Not support now)
