@@ -19,7 +19,7 @@ You can use the `weex -v` command to confirm that the installation is successful
 
 > If you have never installed node.js, you should go [node.js.org]( https://nodejs.org/en/) to download and install it. The node version needs to be upper 6.0. You can try [n](https://github.com/tj/n) to manage your node versions.
 
-If you meet some errors when installing, please go [weex-toolkit issues](https://github.com/weexteam/weex-toolkit/issues) or [weex-toolkit faq](https://github.com/weexteam/weex-toolkit#faq) to find some solution or have a discuss with us.
+If you meet some errors when installing, please go [weex-toolkit issues](https://github.com/weexteam/weex-toolkit/issues) or [weex-toolkit faq](https://github.com/weexteam/weex-toolkit/blob/v1.0/README.md#faq) to find some solution or have a discuss with us.
 
 
 ## Commands
