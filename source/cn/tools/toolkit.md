@@ -26,7 +26,7 @@ $ npm use taobao
 $ npm install weex-toolkit -g
 ```
 
-如果你安装的过程中遇到了问题，你可以在[weex-toolkit常见问题](https://github.com/weexteam/weex-toolkit/blob/master/README-zh.md#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)中找到解决方法或者在[weex-toolkit issues](https://github.com/weexteam/weex-toolkit/issues)中进行反馈。
+如果你安装的过程中遇到了问题，你可以在[weex-toolkit常见问题](https://github.com/weexteam/weex-toolkit/blob/v1.0/README-zh.md#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)中找到解决方法或者在[weex-toolkit issues](https://github.com/weexteam/weex-toolkit/issues)中进行反馈。
 
 
 ## 命令
