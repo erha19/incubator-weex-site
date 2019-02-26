@@ -15,7 +15,8 @@
 * Add enough test cases to cover layout engine.
 ### Render
 #### v0.21
-## tools
+
+## Weex Cli
 
 Weex-toolkit will release version 2.0.0 this year, it mainly provides those following new features:
 
